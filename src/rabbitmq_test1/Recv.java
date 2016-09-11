@@ -8,7 +8,7 @@ import bean.Host;
 
 public class Recv {
 
-	private final static String QUEUE_NAME = "3";
+	private final static String QUEUE_NAME = "hello";
 	
 	public static void main(String[] args) throws IOException, TimeoutException {
 		Consumer consumer = new Consumer(Host.HOST4);

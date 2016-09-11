@@ -33,7 +33,7 @@ public class Producer {
 	 * @throws IOException
 	 */
 	public void send(byte[] body) throws IOException {
-		this.connector.getChannel().basicPublish("", "", null, body);
+		this.connector.getChannel().basicPublish("", "hello", null, body);
 	}
 	
 	/**

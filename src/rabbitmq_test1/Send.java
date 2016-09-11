@@ -21,7 +21,7 @@ public class Send {
 			String in = sc.nextLine();
 			if ("exit".equals(in)) {
 				System.out.println("bye bye!");
-				producer.send("¶Ô·½ÏÂÏßÁË".getBytes("UTF-8"));
+				producer.send("ä¸‹çº¿äº†".getBytes("UTF-8"));
 				break;
 			}
 			

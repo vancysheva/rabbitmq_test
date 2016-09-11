@@ -2,7 +2,7 @@ package bean;
 
 public enum Host {
 
-	HOST4("10.111.0.30", 5672, "test", "root", "admin");
+	HOST4("10.211.55.11", 5672, "test", "root", "admin");
 	
 	private String ip;
 	private int port;
@@ -13,6 +13,7 @@ public enum Host {
 	Host(String ip, int port, String vhost, String username, String password) {
 		this.ip = ip;
 		this.port = port;
+		this.vhost = vhost;
 		this.username = username;
 		this.password = password;
 	}
