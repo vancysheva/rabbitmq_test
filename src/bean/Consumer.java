@@ -7,8 +7,11 @@ import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.Envelope;
 import com.rabbitmq.client.ShutdownSignalException;
 
-public class Consumer implements com.rabbitmq.client.Consumer {
+public class Consumer {
 	private Connector connector;
+	private String queue;
+	private boolean durable;
+	private com.rabbitmq.client.Consumer handler;
 	
 	/**
 	 * constructor
@@ -17,17 +20,20 @@ public class Consumer implements com.rabbitmq.client.Consumer {
 	 * @param durable
 	 * @throws IOException 
 	 */
-	public Consumer(Host host) throws IOException {
+	public Consumer(Host host, String queue, boolean durable, com.rabbitmq.client.Consumer handler) throws IOException {
 		this.connector = new Connector(host);
+		this.queue = queue;
+		this.durable = durable;
+		this.handler = handler;
 	}
 	
 	/**
 	 * subscribe message from queue
 	 * @throws IOException
 	 */
-	public void subscribe(String queue, boolean durable) throws IOException {
-		this.connector.getChannel().queueDeclare(queue, durable, false, false, null);
-		this.connector.getChannel().basicConsume(queue, false, this);
+	public void subscribe() throws IOException {
+		this.connector.getChannel().queueDeclare(this.queue, this.durable, false, false, null);
+		this.connector.getChannel().basicConsume(this.queue, false, handler);
 	}
 	
 	/**
@@ -47,47 +53,19 @@ public class Consumer implements com.rabbitmq.client.Consumer {
 		this.connector = connector;
 	}
 
-
-	
-	@Override
-	public void handleConsumeOk(String consumerTag) {
-		System.out.println("handleConsumeOk = " + consumerTag);
-		
+	public String getQueue() {
+		return queue;
 	}
 
-
-
-	@Override
-	public void handleCancelOk(String consumerTag) {
-		System.out.println("handleCancelOk = " + consumerTag);
+	public void setQueue(String queue) {
+		this.queue = queue;
 	}
 
-
-
-	@Override
-	public void handleCancel(String consumerTag) throws IOException {
-		System.out.println("handleCancel = " + consumerTag);
+	public boolean isDurable() {
+		return durable;
 	}
 
-
-
-	@Override
-	public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) throws IOException {
-		String message = new String(body, "UTF-8");
-		System.out.println(" [x] Received '" + message + "' " + consumerTag);
-	}
-
-
-
-	@Override
-	public void handleShutdownSignal(String consumerTag, ShutdownSignalException sig) {
-		System.out.println("handleShutdownSignal =" + consumerTag);
-	}
-
-
-
-	@Override
-	public void handleRecoverOk(String consumerTag) {
-		System.out.println("handleRecoverOk =" + consumerTag);
+	public void setDurable(boolean durable) {
+		this.durable = durable;
 	}
 }

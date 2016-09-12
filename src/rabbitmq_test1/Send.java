@@ -4,28 +4,34 @@ import java.io.IOException;
 import java.util.Scanner;
 import java.util.concurrent.TimeoutException;
 
+import com.rabbitmq.client.AMQP;
+import com.rabbitmq.client.Channel;
+import com.rabbitmq.client.Envelope;
+import com.rabbitmq.client.MessageProperties;
+import com.rabbitmq.client.ShutdownSignalException;
+
+import bean.Constant;
 import bean.Host;
 import bean.Producer;
 
 public class Send {
 
-	private final static String QUEUE_NAME = "hello";
-	
+	@SuppressWarnings("resource")
 	public static void main(String[] args) throws IOException, TimeoutException {
 		
-		Producer producer = new Producer(Host.HOST4);
-		producer.publish(QUEUE_NAME, false);
-		
+		Producer producer = new Producer(Host.WIN, Constant.QUEUE_NAME_TEST, false);
+		producer.register();
+
 		Scanner sc = new Scanner(System.in);
 		while (true) {
 			String in = sc.nextLine();
 			if ("exit".equals(in)) {
 				System.out.println("bye bye!");
-				producer.send("¶Ô·½ÏÂÏßÁË".getBytes("UTF-8"));
+				producer.publish("ä¸‹çº¿äº†".getBytes("UTF-8"), null);
 				break;
 			}
 			
-			producer.send(in.getBytes("UTF-8"));
+			producer.publish(in.getBytes("UTF-8"), null);
 		}
 		
 		producer.close();
