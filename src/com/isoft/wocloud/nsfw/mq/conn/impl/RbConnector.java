@@ -1,13 +1,16 @@
-package bean;
+package com.isoft.wocloud.nsfw.mq.conn.impl;
 
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 
+import com.isoft.wocloud.nsfw.mq.conn.Connector;
+import com.isoft.wocloud.nsfw.mq.host.Host;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 
-public class Connector {
+public class RbConnector implements Connector {
+	
 	private Connection conn;
 	private Channel channel;
 	private Host host;
@@ -18,7 +21,7 @@ public class Connector {
 	 * @param queue
 	 * @param durable
 	 */
-	public Connector(Host host) {
+	public RbConnector(Host host) {
 		this.host = host;
 		
 		ConnectionFactory factory = new ConnectionFactory();
@@ -35,37 +38,17 @@ public class Connector {
 		}
 	}
 	
-	/**
-	 * close the channel and connecton
-	 * @throws IOException
-	 * @throws TimeoutException
-	 */
+	@Override
 	public void close() throws IOException, TimeoutException {
 		this.channel.close();
 		this.conn.close();
 	}
 
-	public Connection getConn() {
-		return conn;
-	}
-
-	public void setConn(Connection conn) {
-		this.conn = conn;
-	}
-
 	public Channel getChannel() {
-		return channel;
-	}
-
-	public void setChannel(Channel channel) {
-		this.channel = channel;
+		return this.channel;
 	}
 
 	public Host getHost() {
 		return host;
-	}
-
-	public void setHost(Host host) {
-		this.host = host;
 	}
 }

@@ -1,8 +1,8 @@
-package bean;
+package com.isoft.wocloud.nsfw.mq.host;
 
 public enum Host {
 
-	HOST4("10.211.55.11", 5672, "test", "root", "admin");
+	HOST4("10.111.0.4", 5672, "test", "root", "admin");
 	
 	private String ip;
 	private int port;
@@ -22,39 +22,19 @@ public enum Host {
 		return ip;
 	}
 
-	public void setIp(String ip) {
-		this.ip = ip;
-	}
-
 	public int getPort() {
 		return port;
-	}
-
-	public void setPort(int port) {
-		this.port = port;
 	}
 
 	public String getVhost() {
 		return vhost;
 	}
 
-	public void setVhost(String vhost) {
-		this.vhost = vhost;
-	}
-
 	public String getUsername() {
 		return username;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
 	public String getPassword() {
 		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
 	}
 }
